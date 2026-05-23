@@ -7,12 +7,12 @@ import { sendEmail } from "../utils/sendEmail.js";
 import { orderConfirmationTemplate } from "../utils/orderConfirmationTemplate.js";
 
 function buildCartResponse(populatedCart) {
-  // Map items to include their LIVE price from the product variants
-  const itemsWithLivePrice = populatedCart.items.map((item) => {
-    const cartItem = item.toObject ? item.toObject() : item;
+  // Filter out any items that refer to deleted products (where product is null/undefined)
+  const validItems = populatedCart.items.filter((item) => item.product != null);
 
-    // If product is not populated, fallback to stored snapshot
-    if (!item.product) return cartItem;
+  // Map items to include their LIVE price from the product variants
+  const itemsWithLivePrice = validItems.map((item) => {
+    const cartItem = item.toObject ? item.toObject() : item;
 
     // 1. Try to find the specific variant price
     const currentVariant = item.product.variants?.find(
@@ -142,6 +142,13 @@ export const getCart = async (req, res) => {
         success: true,
         cart: { items: [], totalAmount: 0, totalItems: 0 },
       });
+    }
+
+    // Clean up items where product has been deleted from database
+    const originalLength = cart.items.length;
+    cart.items = cart.items.filter((item) => item.product != null);
+    if (cart.items.length !== originalLength) {
+      await cart.save();
     }
 
     return res.status(200).json({
