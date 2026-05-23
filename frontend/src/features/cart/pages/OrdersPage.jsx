@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../hook/useCart";
 import Nav from "../../products/components/Nav";
+import Loader from "../../auth/components/Loader.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaArrowLeft,
@@ -51,52 +52,47 @@ const OrdersPage = () => {
     })();
   }, []);
 
+  if (loading) return <Loader />;
+
   return (
-    <div className="min-h-screen bg-albescent-white font-sans text-lacquered-licorice">
+    <div className="min-h-screen bg-desert-khaki/30 font-sans text-lacquered-licorice">
       <Nav />
 
-      <main className="container mx-auto max-w-4xl px-6 py-16">
+      <main className="container mx-auto max-w-4xl px-6 py-12">
         {/* Header */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-lacquered-licorice/40 hover:text-copper-green transition-colors mb-8 group"
+          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-lacquered-licorice/40 hover:text-copper-green transition-colors mb-6 group"
         >
           <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
           Back
         </button>
 
-        <div className="flex items-center gap-4 mb-12">
-          <h1 className="text-5xl font-black tracking-tighter uppercase italic">
+        <div className="flex items-center gap-4 mb-8">
+          <h1 className="text-4xl font-bold tracking-tight uppercase">
             My <span className="text-copper-green">Orders</span>
           </h1>
-          <div className="h-px flex-1 bg-lacquered-licorice/10 ml-4" />
-          <span className="text-xs font-black bg-lacquered-licorice text-albescent-white px-4 py-1.5 rounded-full tracking-widest leading-none">
+          <div className="h-px flex-1 bg-lacquered-licorice/10 ml-2" />
+          <span className="text-[10px] font-bold bg-lacquered-licorice text-albescent-white px-3 py-1 rounded-full tracking-wider leading-none">
             {orders.length} ORDERS
           </span>
         </div>
 
-        {/* Loading */}
-        {loading && (
-          <div className="flex items-center justify-center py-32">
-            <div className="w-10 h-10 border-4 border-copper-green border-t-transparent rounded-full animate-spin" />
-          </div>
-        )}
-
         {/* Empty state */}
         {!loading && orders.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-32 text-center">
-            <div className="w-24 h-24 bg-desert-khaki/30 rounded-full flex items-center justify-center mb-8">
-              <FaBox size={32} className="text-lacquered-licorice/20" />
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-20 h-20 bg-lacquered-licorice/5 rounded-full flex items-center justify-center mb-6 border border-lacquered-licorice/10">
+              <FaBox size={24} className="text-lacquered-licorice/30" />
             </div>
-            <h2 className="text-3xl font-black uppercase italic tracking-tighter mb-3">
+            <h2 className="text-2xl font-bold uppercase tracking-tight mb-2">
               No Orders Yet
             </h2>
-            <p className="text-lacquered-licorice/40 text-sm font-medium mb-8 max-w-xs">
+            <p className="text-lacquered-licorice/50 text-sm mb-6 max-w-xs">
               Once you make a purchase, your orders will appear here.
             </p>
             <button
               onClick={() => navigate("/")}
-              className="group flex items-center gap-3 bg-lacquered-licorice text-albescent-white px-10 py-4 rounded-full font-black tracking-widest text-[10px] hover:bg-copper-green transition-all duration-500 shadow-2xl"
+              className="group flex items-center gap-2 bg-lacquered-licorice text-albescent-white px-8 py-3.5 rounded-xl font-bold tracking-wider text-xs hover:bg-copper-green transition-all duration-300"
             >
               SHOP NOW
               <FaArrowLeft className="rotate-180 group-hover:translate-x-1 transition-transform" />
@@ -107,7 +103,7 @@ const OrdersPage = () => {
         {/* Orders list */}
         {!loading && orders.length > 0 && (
           <AnimatePresence>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {orders.map((order, i) => {
                 const cfg = statusConfig[order.status] || statusConfig.pending;
                 const StatusIcon = cfg.icon;
@@ -120,22 +116,22 @@ const OrdersPage = () => {
                 return (
                   <motion.div
                     key={order._id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
-                    className="bg-white rounded-[2rem] border border-lacquered-licorice/5 overflow-hidden hover:shadow-xl hover:shadow-lacquered-licorice/5 transition-all duration-500"
+                    className="bg-white rounded-2xl border border-lacquered-licorice/10 overflow-hidden hover:border-copper-green/30 transition-all duration-300 shadow-sm"
                   >
                     {/* Order header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-8 py-6 border-b border-lacquered-licorice/5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-5 border-b border-lacquered-licorice/10">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-copper-green/10 rounded-2xl flex items-center justify-center">
-                          <FaReceipt size={16} className="text-copper-green" />
+                        <div className="w-11 h-11 bg-copper-green/10 rounded-xl flex items-center justify-center">
+                          <FaReceipt size={14} className="text-copper-green" />
                         </div>
                         <div>
-                          <p className="text-[9px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/30 mb-1">
+                          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-lacquered-licorice/30 mb-0.5">
                             Order ID
                           </p>
-                          <p className="text-xs font-black text-lacquered-licorice font-mono truncate max-w-[200px]">
+                          <p className="text-xs font-bold text-lacquered-licorice font-mono truncate max-w-[200px]">
                             {order.razorpay?.order_id || order._id}
                           </p>
                         </div>
@@ -143,14 +139,14 @@ const OrdersPage = () => {
 
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <p className="text-[9px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/30 mb-1">
+                          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-lacquered-licorice/30 mb-0.5">
                             Date
                           </p>
                           <p className="text-xs font-bold">{date}</p>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${cfg.bg} ${cfg.border} border`}>
-                          <StatusIcon size={11} className={cfg.text} />
-                          <span className={`text-[9px] font-black uppercase tracking-widest ${cfg.text}`}>
+                        <div className={`flex items-center gap-2 px-2.5 py-1 rounded-lg ${cfg.bg} ${cfg.border} border`}>
+                          <StatusIcon size={10} className={cfg.text} />
+                          <span className={`text-[9px] font-bold uppercase tracking-widest ${cfg.text}`}>
                             {cfg.label}
                           </span>
                         </div>
@@ -159,11 +155,11 @@ const OrdersPage = () => {
 
                     {/* Order items */}
                     {order.orderSnapshot && order.orderSnapshot.length > 0 && (
-                      <div className="px-8 py-5 space-y-4">
+                      <div className="px-6 py-4 space-y-3">
                         {order.orderSnapshot.map((item, idx) => (
-                          <div key={idx} className="flex items-center gap-5">
+                          <div key={idx} className="flex items-center gap-4">
                             {item.image ? (
-                              <div className="w-16 h-20 rounded-xl overflow-hidden bg-desert-khaki/20 shrink-0">
+                              <div className="w-14 h-18 rounded-lg overflow-hidden bg-desert-khaki/20 border border-lacquered-licorice/5 shrink-0">
                                 <img
                                   src={item.image}
                                   alt={item.title}
@@ -171,19 +167,19 @@ const OrdersPage = () => {
                                 />
                               </div>
                             ) : (
-                              <div className="w-16 h-20 rounded-xl bg-desert-khaki/30 flex items-center justify-center shrink-0">
-                                <FaBox size={18} className="text-lacquered-licorice/20" />
+                              <div className="w-14 h-18 rounded-lg bg-desert-khaki/20 border border-lacquered-licorice/5 flex items-center justify-center shrink-0">
+                                <FaBox size={16} className="text-lacquered-licorice/20" />
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <p className="font-black text-sm uppercase tracking-tight truncate">
+                              <p className="font-bold text-sm uppercase tracking-tight truncate">
                                 {item.title}
                               </p>
-                              <p className="text-[10px] text-lacquered-licorice/40 font-bold mt-1">
+                              <p className="text-[10px] text-lacquered-licorice/40 font-bold mt-0.5">
                                 Qty: {item.quantity}
                               </p>
                             </div>
-                            <p className="font-black text-sm text-copper-green shrink-0">
+                            <p className="font-bold text-sm text-copper-green shrink-0">
                               {item.price?.currency} {((item.price?.amount || 0) * item.quantity).toLocaleString()}
                             </p>
                           </div>
@@ -192,11 +188,11 @@ const OrdersPage = () => {
                     )}
 
                     {/* Order footer total */}
-                    <div className="px-8 py-5 bg-lacquered-licorice/[0.02] border-t border-lacquered-licorice/5 flex justify-between items-center">
-                      <p className="text-[9px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/40">
+                    <div className="px-6 py-4 bg-desert-khaki/5 border-t border-lacquered-licorice/10 flex justify-between items-center">
+                      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-lacquered-licorice/40">
                         Total Paid
                       </p>
-                      <p className="text-2xl font-black tracking-tighter text-lacquered-licorice">
+                      <p className="text-xl font-bold tracking-tight text-lacquered-licorice">
                         {order.price?.currency}{" "}
                         {Number(order.price?.amount || 0).toLocaleString()}
                       </p>

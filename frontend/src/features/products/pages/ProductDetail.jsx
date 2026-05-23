@@ -93,7 +93,7 @@ const ProductDetail = () => {
   // Handle both null product and error objects returned by the hook
   if (!product || product.error) {
     return (
-      <div className="min-h-screen bg-albescent-white flex flex-col font-sans">
+      <div className="min-h-screen bg-desert-khaki/30 flex flex-col font-sans">
         <Nav />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <h1 className="text-3xl font-black text-lacquered-licorice mb-4 uppercase">
@@ -115,7 +115,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-albescent-white flex flex-col font-sans px-2 sm:px-0">
+    <div className="min-h-screen bg-desert-khaki/30 flex flex-col font-sans px-2 sm:px-0">
       <Nav />
 
       <main className="flex-1 container mx-auto max-w-6xl px-6 py-4 md:py-8">
@@ -141,7 +141,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left: Product Images (Swiper) */}
           <div className="space-y-4  w-full max-w-lg mx-auto lg:mx-0">
-            <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-desert-khaki/10 border border-lacquered-licorice/5 shadow-xl group">
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-desert-khaki/10 border border-lacquered-licorice/10 shadow-sm group">
               <Swiper
                 modules={[Navigation, Pagination, Autoplay, EffectFade]}
                 effect="fade"
@@ -257,7 +257,7 @@ const ProductDetail = () => {
               )}
             </div>
 
-            <div className="p-4 bg-desert-khaki/20 rounded-2xl border border-lacquered-licorice/5">
+            <div className="p-4 bg-desert-khaki/20 rounded-xl border border-lacquered-licorice/10">
               <p className="text-lacquered-licorice/70 text-sm font-medium leading-relaxed">
                 {product.description}
               </p>
@@ -362,7 +362,7 @@ const ProductDetail = () => {
               {/* Quantity stepper */}
               <div className="flex items-center gap-4">
                 <span className="text-[10px] font-black uppercase tracking-widest text-lacquered-licorice/40">Qty</span>
-                <div className="flex items-center bg-albescent-white/80 border border-lacquered-licorice/8 rounded-xl overflow-hidden shadow-inner">
+                <div className="flex items-center bg-desert-khaki/10 border border-lacquered-licorice/10 rounded-xl overflow-hidden">
                   <button
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
                     disabled={qty <= 1}
@@ -391,7 +391,7 @@ const ProductDetail = () => {
                 <button
                   onClick={handleAddToBag}
                   disabled={adding || displayStock === 0}
-                  className="flex-1 group bg-copper-green text-albescent-white py-4 rounded-2xl font-black tracking-widest text-xs flex items-center justify-center gap-2.5 hover:bg-lacquered-licorice transition-all duration-500 shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 group bg-copper-green text-albescent-white py-4 rounded-xl font-bold tracking-widest text-xs flex items-center justify-center gap-2.5 hover:bg-lacquered-licorice transition-all duration-300 shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {adding ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -402,10 +402,10 @@ const ProductDetail = () => {
                 </button>
                 <button
                   onClick={() => setWishlisted((w) => !w)}
-                  className={`w-14 rounded-2xl border-2 flex items-center justify-center transition-all duration-300 shadow-sm active:scale-95 ${
+                  className={`w-14 rounded-xl border flex items-center justify-center transition-all duration-300 shadow-sm active:scale-95 ${
                     wishlisted
-                      ? "border-red-400 bg-red-50 text-red-400"
-                      : "border-lacquered-licorice/10 text-lacquered-licorice hover:border-red-300 hover:bg-red-50 hover:text-red-400"
+                      ? "border-red-400 bg-red-50/50 text-red-500"
+                      : "border-lacquered-licorice/10 text-lacquered-licorice hover:border-red-300 hover:bg-red-50/50 hover:text-red-500"
                   }`}
                 >
                   <FaHeart size={14} />

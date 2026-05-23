@@ -8,7 +8,7 @@ import { useToast } from "../../common/Toast";
 import { useNavigate } from "react-router-dom";
 
 // ── Shared styles ─────────────────────────────────────────────────────────────
-const inp = "w-full bg-white border border-lacquered-licorice/10 text-lacquered-licorice placeholder:text-lacquered-licorice/25 px-4 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-copper-green/30 focus:border-copper-green/40 focus:bg-white transition-all";
+const inp = "w-full bg-white border border-lacquered-licorice/10 text-lacquered-licorice placeholder:text-lacquered-licorice/25 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-1 focus:ring-copper-green border border-lacquered-licorice/10 transition-all";
 const lbl = "block text-[10px] font-black uppercase tracking-widest text-lacquered-licorice/40 mb-2";
 
 const Section = ({ title, children }) => (
@@ -22,7 +22,7 @@ const Section = ({ title, children }) => (
 );
 
 const ImgThumb = ({ src, onRemove }) => (
-  <div className="relative w-16 h-16 rounded-2xl overflow-hidden group border-2 border-copper-green/30 shadow-md shadow-copper-green/10">
+  <div className="relative w-16 h-16 rounded-xl overflow-hidden group border border-copper-green/20 shadow-sm">
     <img src={src} className="w-full h-full object-cover" alt="" />
     <button type="button" onClick={onRemove}
       className="absolute inset-0 bg-red-500/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -32,7 +32,7 @@ const ImgThumb = ({ src, onRemove }) => (
 );
 
 const AddImgBtn = ({ onChange, small }) => (
-  <label className={`${small ? "w-12 h-12" : "w-16 h-16"} flex flex-col items-center justify-center border-2 border-dashed border-lacquered-licorice/15 rounded-2xl cursor-pointer hover:border-copper-green hover:bg-copper-green/5 transition-all text-lacquered-licorice/20 hover:text-copper-green`}>
+  <label className={`${small ? "w-12 h-12" : "w-16 h-16"} flex flex-col items-center justify-center border border-dashed border-lacquered-licorice/15 rounded-xl cursor-pointer hover:border-copper-green hover:bg-copper-green/5 transition-all text-lacquered-licorice/20 hover:text-copper-green`}>
     <LuImagePlus size={small ? 16 : 20} />
     {!small && <span className="text-[7px] mt-1 font-black uppercase tracking-widest">Add</span>}
     <input type="file" multiple accept="image/*" onChange={onChange} className="hidden" />
@@ -150,21 +150,21 @@ const CreateProduct = () => {
   const currencySymbol = { INR: "₹", USD: "$", EUR: "€", GBP: "£" }[formData.priceCurrency] || "₹";
 
   return (
-    <div className="min-h-screen bg-albescent-white flex flex-col font-sans">
+    <div className="min-h-screen bg-desert-khaki/30 flex flex-col font-sans">
       <Nav />
 
-      <main className="flex-1 container mx-auto max-w-5xl px-4 md:px-8 py-10">
+      <main className="flex-1 container mx-auto max-w-5xl px-4 md:px-8 py-8">
 
         {/* ── Header ──────────────────────────────────────────────────────── */}
-        <div className="flex items-center gap-4 mb-10">
+        <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-2xl border border-lacquered-licorice/10 flex items-center justify-center text-lacquered-licorice/40 hover:bg-lacquered-licorice hover:text-albescent-white hover:border-lacquered-licorice transition-all shadow-sm">
+            className="w-10 h-10 rounded-xl border border-lacquered-licorice/10 flex items-center justify-center text-lacquered-licorice/40 hover:bg-lacquered-licorice hover:text-albescent-white hover:border-lacquered-licorice transition-all shadow-sm">
             <FaArrowLeft size={14} />
           </button>
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-copper-green mb-0.5">Seller Dashboard</p>
-            <h1 className="text-3xl font-black text-lacquered-licorice tracking-tighter uppercase italic flex items-center gap-2">
-              <LuPackagePlus size={22} className="text-copper-green" />
+            <h1 className="text-2xl font-bold text-lacquered-licorice uppercase tracking-tight flex items-center gap-2">
+              <LuPackagePlus size={20} className="text-copper-green" />
               New Listing
             </h1>
           </div>
@@ -174,10 +174,10 @@ const CreateProduct = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
             {/* ── Left: Details + Variants ────────────────────────────────── */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-6">
 
               {/* General info card */}
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-8 space-y-5">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-5">
                 <Section title="Product Details">
                   <div>
                     <label className={lbl}>Product Title</label>
@@ -230,7 +230,7 @@ const CreateProduct = () => {
               </div>
 
               {/* Variants card */}
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-8 space-y-6">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-lacquered-licorice/40">Variants</h3>
@@ -247,7 +247,7 @@ const CreateProduct = () => {
                 </div>
 
                 {variants.length === 0 && (
-                  <div className="border-2 border-dashed border-lacquered-licorice/8 rounded-2xl p-10 text-center">
+                  <div className="border border-dashed border-lacquered-licorice/15 rounded-xl p-8 text-center bg-desert-khaki/10">
                     <LuLayers size={30} className="text-lacquered-licorice/12 mx-auto mb-3" />
                     <p className="text-[11px] font-bold text-lacquered-licorice/25 uppercase tracking-widest">No variants yet</p>
                     <p className="text-xs text-lacquered-licorice/20 mt-1">Add size, colour or any attribute variant</p>
@@ -256,7 +256,7 @@ const CreateProduct = () => {
 
                 <div className="space-y-5">
                   {variants.map((v, vI) => (
-                    <div key={vI} className="border border-lacquered-licorice/8 rounded-2xl p-6 space-y-5 hover:border-copper-green/20 transition-colors bg-albescent-white/40">
+                    <div key={vI} className="border border-lacquered-licorice/10 rounded-xl p-5 space-y-4 transition-colors bg-desert-khaki/10">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <LuLayers size={12} className="text-copper-green" />
@@ -320,7 +320,7 @@ const CreateProduct = () => {
 
             {/* ── Right sidebar: Images + Submit ──────────────────────────── */}
             <div className="space-y-6">
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-6 space-y-5 lg:sticky lg:top-28">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-5 lg:sticky lg:top-28">
                 <Section title="Product Images">
                   <div className="grid grid-cols-3 gap-2.5">
                     {imagePreviews.map((url, i) => (
@@ -356,7 +356,7 @@ const CreateProduct = () => {
 
                 {/* Submit */}
                 <button type="submit" disabled={saving}
-                  className="w-full bg-lacquered-licorice text-albescent-white font-black py-4 rounded-2xl hover:bg-copper-green transition-all duration-500 shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2.5">
+                  className="w-full bg-lacquered-licorice text-albescent-white font-bold py-4 rounded-xl hover:bg-copper-green transition-all duration-300 shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2.5">
                   {saving ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (

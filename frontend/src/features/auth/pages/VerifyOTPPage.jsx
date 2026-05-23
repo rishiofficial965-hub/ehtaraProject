@@ -105,54 +105,53 @@ const VerifyOTPPage = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-desert-khaki flex flex-col">
+    <div className="min-h-screen bg-desert-khaki/30 flex flex-col">
       <Nav />
-      {/* Subtle ambient blobs matching the site theme */}
       <main className="flex-1 flex flex-col justify-center items-center p-4">
-        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md bg-albescent-white/40 backdrop-blur-md border border-copper-green/20 rounded-2xl px-8 py-10 shadow-[0_10px_30px_rgba(63,78,60,0.1)]">
+        <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md bg-white border border-lacquered-licorice/10 rounded-2xl px-8 py-10 shadow-sm">
 
-        {/* Logo + Header */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-12 h-12 rounded-full bg-copper-green flex items-center justify-center mb-1 shadow-[0_5px_15px_rgba(63,78,60,0.2)]">
-            <div className="w-6 h-6 bg-albescent-white rounded-sm animate-soft-rotate" />
+          {/* Logo + Header */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-12 h-12 rounded-xl bg-copper-green flex items-center justify-center mb-1 shadow-[0_5px_15px_rgba(63,78,60,0.2)]">
+              <span className="text-albescent-white font-black text-2xl leading-none">S</span>
+            </div>
+            <h1 className="text-2xl font-semibold tracking-tight text-lacquered-licorice">
+              Verify your email
+            </h1>
+            <p className="text-lacquered-licorice/50 text-sm text-center leading-relaxed">
+              We sent a 6-digit code to your email address.<br />
+              Enter it below to activate your account.
+            </p>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-lacquered-licorice">
-            Verify your email
-          </h1>
-          <p className="text-lacquered-licorice/50 text-sm text-center leading-relaxed">
-            We sent a 6-digit code to your email address.<br />
-            Enter it below to activate your account.
-          </p>
-        </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="w-full bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
-            <p className="text-red-600 text-sm text-center font-medium">{error}</p>
-          </div>
-        )}
+          {/* Error Message */}
+          {error && (
+            <div className="w-full bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+              <p className="text-red-600 text-sm text-center font-medium">{error}</p>
+            </div>
+          )}
 
-        {/* Success Message */}
-        {successMsg && (
-          <div className="w-full bg-copper-green/10 border border-copper-green/20 rounded-xl px-4 py-3">
-            <p className="text-copper-green text-sm text-center font-medium">{successMsg}</p>
-          </div>
-        )}
+          {/* Success Message */}
+          {successMsg && (
+            <div className="w-full bg-copper-green/10 border border-copper-green/20 rounded-xl px-4 py-3">
+              <p className="text-copper-green text-sm text-center font-medium">{successMsg}</p>
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-6 w-full">
-          {/* 6-digit OTP Input Grid */}
-          <div className="flex gap-2.5 justify-center" onPaste={handlePaste}>
-            {digits.map((digit, index) => (
-              <input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className={`
+          <form onSubmit={handleSubmit} className="flex flex-col items-center gap-6 w-full">
+            {/* 6-digit OTP Input Grid */}
+            <div className="flex gap-2.5 justify-center" onPaste={handlePaste}>
+              {digits.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  className={`
                   w-11 h-13 text-center text-xl font-bold rounded-xl
                   bg-copper-green/10 text-lacquered-licorice
                   border transition-all duration-200 outline-none
@@ -160,54 +159,54 @@ const VerifyOTPPage = () => {
                   caret-transparent select-none
                   ${digit ? "border-copper-green/60 bg-copper-green/15" : "border-copper-green/20"}
                 `}
-                style={{ height: "52px" }}
-                autoComplete="one-time-code"
-              />
-            ))}
+                  style={{ height: "52px" }}
+                  autoComplete="one-time-code"
+                />
+              ))}
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading || digits.join("").length < 6}
+              className="w-full rounded-xl bg-copper-green text-albescent-white font-semibold py-3.5 hover:bg-lacquered-licorice transition-all active:scale-[0.98] cursor-pointer shadow-[0_4px_12px_rgba(63,78,60,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="inline-block w-4 h-4 border-2 border-albescent-white/40 border-t-albescent-white rounded-full animate-spin" />
+                  Verifying…
+                </span>
+              ) : (
+                "Verify & Continue"
+              )}
+            </button>
+          </form>
+
+          {/* Resend OTP */}
+          <div className="flex flex-col items-center gap-1.5">
+            <p className="text-lacquered-licorice/40 text-xs">Didn't receive a code?</p>
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={resendCooldown > 0 || loading}
+              className="text-copper-green text-sm font-semibold hover:underline underline-offset-4 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+            >
+              {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : "Resend OTP"}
+            </button>
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading || digits.join("").length < 6}
-            className="w-full rounded-xl bg-copper-green text-albescent-white font-semibold py-3.5 hover:bg-lacquered-licorice transition-all active:scale-[0.98] cursor-pointer shadow-[0_4px_12px_rgba(63,78,60,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="inline-block w-4 h-4 border-2 border-albescent-white/40 border-t-albescent-white rounded-full animate-spin" />
-                Verifying…
-              </span>
-            ) : (
-              "Verify & Continue"
-            )}
-          </button>
-        </form>
-
-        {/* Resend OTP */}
-        <div className="flex flex-col items-center gap-1.5">
-          <p className="text-lacquered-licorice/40 text-xs">Didn't receive a code?</p>
-          <button
-            type="button"
-            onClick={handleResend}
-            disabled={resendCooldown > 0 || loading}
-            className="text-copper-green text-sm font-semibold hover:underline underline-offset-4 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
-          >
-            {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : "Resend OTP"}
-          </button>
+          {/* Expiry note */}
+          <p className="text-lacquered-licorice/30 text-xs text-center">
+            The code expires in 5 minutes.
+          </p>
         </div>
 
-        {/* Expiry note */}
-        <p className="text-lacquered-licorice/30 text-xs text-center">
-          The code expires in 5 minutes.
-        </p>
-      </div>
-
-      {/* Footer links */}
-      <div className="mt-8 flex gap-4 text-[11px] text-lacquered-licorice/30 font-medium tracking-wide">
-        <span>Terms of use</span>
-        <span className="w-1 h-1 bg-lacquered-licorice/20 rounded-full mt-1.5" />
-        <span>Privacy policy</span>
-      </div>
+        {/* Footer links */}
+        <div className="mt-8 flex gap-4 text-[11px] text-lacquered-licorice/30 font-medium tracking-wide">
+          <span>Terms of use</span>
+          <span className="w-1 h-1 bg-lacquered-licorice/20 rounded-full mt-1.5" />
+          <span>Privacy policy</span>
+        </div>
       </main>
     </div>
   );

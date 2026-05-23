@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useProduct } from "../hooks/useProduct";
 import { useCart } from "../../cart/hook/useCart";
 import Nav from "../components/Nav";
+import Loader from "../../auth/components/Loader.jsx";
 import {
   FaShoppingBag,
   FaHeart,
@@ -90,13 +91,7 @@ const Home = () => {
   useEffect(() => { handleGetAllProducts(); }, []);
   useEffect(() => { if (user?.role === "seller") navigate("/seller/dashboard"); }, [user, navigate]);
 
-  if (loading && products.length === 0) {
-    return (
-      <div className="min-h-screen bg-albescent-white flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-copper-green border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
+  if (loading && products.length === 0) return <Loader />;
 
   return (
     <div className="min-h-screen bg-albescent-white flex flex-col font-sans">

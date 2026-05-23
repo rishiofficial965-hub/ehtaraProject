@@ -22,10 +22,10 @@ const InputField = ({ label, id, type = "text", value, onChange, disabled, icon:
     <label htmlFor={id} className="text-[9px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/40">
       {label}
     </label>
-    <div className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all duration-300 ${
+    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border border-lacquered-licorice/10 transition-all duration-300 ${
       readOnly || disabled
-        ? "bg-lacquered-licorice/3 border-lacquered-licorice/8"
-        : "bg-white border-lacquered-licorice/15 focus-within:border-copper-green/50 focus-within:shadow-[0_0_0_3px_rgba(44,62,41,0.06)]"
+        ? "bg-lacquered-licorice/3 border-lacquered-licorice/5"
+        : "bg-white border-lacquered-licorice/15 focus-within:border-copper-green/50"
     }`}>
       <Icon size={13} className={readOnly || disabled ? "text-lacquered-licorice/20" : "text-copper-green/60"} />
       <input
@@ -81,42 +81,41 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-albescent-white font-sans text-lacquered-licorice">
+    <div className="min-h-screen bg-desert-khaki/30 font-sans text-lacquered-licorice">
       <Nav />
 
-      <main className="container mx-auto max-w-2xl px-6 py-16">
+      <main className="container mx-auto max-w-2xl px-6 py-12">
         {/* Back */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-lacquered-licorice/40 hover:text-copper-green transition-colors mb-8 group"
+          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-lacquered-licorice/40 hover:text-copper-green transition-colors mb-6 group"
         >
           <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
           Back
         </button>
 
         {/* Header */}
-        <div className="flex items-end gap-4 mb-12">
-          <h1 className="text-5xl font-black tracking-tighter uppercase italic">
+        <div className="flex items-center gap-4 mb-8">
+          <h1 className="text-4xl font-bold tracking-tight uppercase">
             My <span className="text-copper-green">Profile</span>
           </h1>
-          <div className="h-px flex-1 bg-lacquered-licorice/10 mb-2" />
+          <div className="h-px flex-1 bg-lacquered-licorice/10" />
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="space-y-6"
+          className="space-y-4"
         >
           {/* Avatar card */}
-          <div className="bg-lacquered-licorice text-albescent-white rounded-[2.5rem] p-8 relative overflow-hidden">
-            <div className="absolute -top-12 -right-12 w-40 h-40 bg-copper-green/15 rounded-full blur-3xl" />
+          <div className="bg-lacquered-licorice text-albescent-white rounded-2xl border border-lacquered-licorice/20 p-6 relative overflow-hidden">
             <div className="relative z-10 flex items-center gap-6">
-              <div className="w-20 h-20 rounded-3xl bg-copper-green/20 border border-copper-green/30 flex items-center justify-center shrink-0">
+              <div className="w-16 h-16 rounded-xl bg-copper-green/20 border border-copper-green/30 flex items-center justify-center shrink-0">
                 {user?.role === "seller" ? (
-                  <FaStore size={28} className="text-playing-hooky" />
+                  <FaStore size={24} className="text-playing-hooky" />
                 ) : (
-                  <FaUser size={28} className="text-playing-hooky" />
+                  <FaUser size={24} className="text-playing-hooky" />
                 )}
               </div>
               <div>
@@ -130,7 +129,7 @@ const ProfilePage = () => {
           </div>
 
           {/* Details card */}
-          <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 p-8 space-y-5">
+          <div className="bg-white rounded-2xl border border-lacquered-licorice/10 p-6 space-y-5">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/40">
                 Account Details
@@ -197,13 +196,13 @@ const ProfilePage = () => {
           </div>
 
           {/* Security card */}
-          <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 p-8">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/40 mb-6">
+          <div className="bg-white rounded-2xl border border-lacquered-licorice/10 p-6">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-lacquered-licorice/40 mb-4">
               Security
             </h3>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-copper-green/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-copper-green/10 flex items-center justify-center">
                   <FaShieldAlt size={16} className="text-copper-green" />
                 </div>
                 <div>

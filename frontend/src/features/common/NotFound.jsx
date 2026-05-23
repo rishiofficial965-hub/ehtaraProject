@@ -9,8 +9,7 @@ const NotFound = () => {
     <div className="min-h-screen bg-lacquered-licorice flex flex-col items-center justify-center px-6 text-center relative overflow-hidden font-sans">
       {/* Background texture */}
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1600')] bg-cover bg-center opacity-5" />
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-copper-green/10 rounded-full blur-3xl" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-playing-hooky/10 rounded-full blur-3xl" />
+
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -39,7 +38,7 @@ const NotFound = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => navigate("/")}
-              className="group flex items-center gap-3 bg-albescent-white text-lacquered-licorice px-8 py-4 rounded-full font-black text-xs tracking-widest uppercase hover:bg-copper-green hover:text-albescent-white transition-all duration-500 shadow-2xl"
+              className="group flex items-center gap-2 bg-albescent-white text-lacquered-licorice px-8 py-3.5 rounded-xl font-bold text-xs tracking-widest uppercase hover:bg-copper-green hover:text-albescent-white transition-all duration-300 shadow-md"
             >
               Back to Home
               <FaArrowLeft className="rotate-180 group-hover:translate-x-1 transition-transform" />

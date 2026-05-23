@@ -7,10 +7,11 @@ import {
 } from "react-icons/lu";
 import Nav from "../components/Nav";
 import { useToast } from "../../common/Toast";
+import Loader from "../../auth/components/Loader.jsx";
 
 // ── Shared input style ────────────────────────────────────────────────────────
 const input =
-  "w-full bg-white border border-lacquered-licorice/10 text-lacquered-licorice placeholder:text-lacquered-licorice/25 px-4 py-3 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-copper-green/30 focus:border-copper-green/40 focus:bg-white transition-all";
+  "w-full bg-white border border-lacquered-licorice/10 text-lacquered-licorice placeholder:text-lacquered-licorice/25 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-1 focus:ring-copper-green border border-lacquered-licorice/10 transition-all";
 
 const label = "block text-[10px] font-black uppercase tracking-widest text-lacquered-licorice/40 mb-2";
 
@@ -159,7 +160,7 @@ const SellerProductDetails = () => {
 
   // ── Image thumbnail shared component ───────────────────────────────────────
   const ImgThumb = ({ src, onRemove, isNew, size = "16" }) => (
-    <div className={`relative w-${size} h-${size} rounded-2xl overflow-hidden group border-2 ${isNew ? "border-copper-green shadow-md shadow-copper-green/20" : "border-lacquered-licorice/8"}`}>
+    <div className={`relative w-${size} h-${size} rounded-xl overflow-hidden group border ${isNew ? "border-copper-green shadow-sm shadow-copper-green/20" : "border-lacquered-licorice/8"}`}>
       <img src={src} className="w-full h-full object-cover" alt="" />
       {isNew && <span className="absolute top-1.5 left-1.5 bg-copper-green text-albescent-white text-[7px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-widest">New</span>}
       <button type="button" onClick={onRemove}
@@ -170,54 +171,47 @@ const SellerProductDetails = () => {
   );
 
   const AddImgBtn = ({ onChange, size = "16" }) => (
-    <label className={`w-${size} h-${size} flex flex-col items-center justify-center border-2 border-dashed border-lacquered-licorice/15 rounded-2xl cursor-pointer hover:border-copper-green hover:bg-copper-green/5 transition-all text-lacquered-licorice/20 hover:text-copper-green`}>
+    <label className={`w-${size} h-${size} flex flex-col items-center justify-center border border-dashed border-lacquered-licorice/15 rounded-xl cursor-pointer hover:border-copper-green hover:bg-copper-green/5 transition-all text-lacquered-licorice/20 hover:text-copper-green`}>
       <LuImagePlus size={size === "16" ? 20 : 16} />
       <span className="text-[7px] mt-1 font-black uppercase tracking-widest hidden sm:block">Add</span>
       <input type="file" multiple accept="image/*" onChange={onChange} className="hidden" />
     </label>
   );
 
-  if (loading && !formData.title) return (
-    <div className="min-h-screen bg-albescent-white flex flex-col">
-      <Nav />
-      <div className="flex-1 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-copper-green border-t-transparent rounded-full animate-spin" />
-      </div>
-    </div>
-  );
+  if (loading && !formData.title) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-albescent-white flex flex-col font-sans">
+    <div className="min-h-screen bg-desert-khaki/30 flex flex-col font-sans">
       <Nav />
 
-      <main className="flex-1 container mx-auto max-w-5xl px-4 md:px-8 py-10">
+      <main className="flex-1 container mx-auto max-w-5xl px-4 md:px-8 py-8">
         {/* ── Header ──────────────────────────────────────────────────────── */}
-        <div className="flex items-center gap-4 mb-10">
+        <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-2xl border border-lacquered-licorice/10 flex items-center justify-center text-lacquered-licorice/40 hover:bg-lacquered-licorice hover:text-albescent-white hover:border-lacquered-licorice transition-all shadow-sm">
+            className="w-10 h-10 rounded-xl border border-lacquered-licorice/10 flex items-center justify-center text-lacquered-licorice/40 hover:bg-lacquered-licorice hover:text-albescent-white hover:border-lacquered-licorice transition-all shadow-sm">
             <LuArrowLeft size={16} />
           </button>
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-copper-green mb-0.5">Seller Dashboard</p>
-            <h1 className="text-3xl font-black text-lacquered-licorice tracking-tighter uppercase italic flex items-center gap-2">
-              <LuPackage size={24} className="text-copper-green" />
+            <h1 className="text-2xl font-bold text-lacquered-licorice uppercase tracking-tight flex items-center gap-2">
+              <LuPackage size={20} className="text-copper-green" />
               Edit Product
             </h1>
           </div>
-          <div className="ml-auto hidden md:flex items-center gap-2 bg-lacquered-licorice/5 border border-lacquered-licorice/8 px-4 py-2 rounded-2xl">
+          <div className="ml-auto hidden md:flex items-center gap-2 bg-lacquered-licorice/5 border border-lacquered-licorice/8 px-4 py-2 rounded-xl">
             <span className="w-2 h-2 rounded-full bg-copper-green animate-pulse" />
             <span className="text-[10px] font-black uppercase tracking-widest text-lacquered-licorice/40">Live Listing</span>
           </div>
         </div>
 
         {/* ── Form ────────────────────────────────────────────────────────── */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Grid: left form + right image sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
             {/* ── Left: General Info ──────────────────────────────────────── */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-8 space-y-5">
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-5">
                 <Section title="General Information">
                   <div>
                     <label className={label}>Product Title</label>
@@ -271,7 +265,7 @@ const SellerProductDetails = () => {
               </div>
 
               {/* ── Variants ────────────────────────────────────────────────── */}
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-8 space-y-6">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-lacquered-licorice/40">Product Variants</h3>
@@ -289,7 +283,7 @@ const SellerProductDetails = () => {
                 </div>
 
                 {variants.length === 0 && (
-                  <div className="border-2 border-dashed border-lacquered-licorice/8 rounded-2xl p-10 text-center">
+                  <div className="border border-dashed border-lacquered-licorice/15 rounded-xl p-8 text-center bg-desert-khaki/10">
                     <LuLayers size={32} className="text-lacquered-licorice/15 mx-auto mb-3" />
                     <p className="text-[11px] font-bold text-lacquered-licorice/30 uppercase tracking-widest">No variants yet</p>
                     <p className="text-xs text-lacquered-licorice/20 mt-1">Add size, colour or any attribute variant</p>
@@ -298,7 +292,7 @@ const SellerProductDetails = () => {
 
                 <div className="space-y-5">
                   {variants.map((v, vI) => (
-                    <div key={vI} className="border border-lacquered-licorice/8 rounded-2xl p-6 space-y-5 hover:border-copper-green/20 transition-colors bg-albescent-white/40">
+                    <div key={vI} className="border border-lacquered-licorice/10 rounded-xl p-5 space-y-4 transition-colors bg-desert-khaki/10">
                       {/* Variant header */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -371,7 +365,7 @@ const SellerProductDetails = () => {
 
             {/* ── Right sidebar: Images ───────────────────────────────────── */}
             <div className="space-y-6">
-              <div className="bg-white rounded-[2rem] border border-lacquered-licorice/5 shadow-sm p-6 space-y-5 lg:sticky lg:top-28">
+              <div className="bg-white rounded-2xl border border-lacquered-licorice/10 shadow-sm p-6 space-y-5 lg:sticky lg:top-28">
                 <Section title="Product Images">
                   <div className="grid grid-cols-3 gap-2.5">
                     {existingImages.map((img, i) => (
@@ -389,7 +383,7 @@ const SellerProductDetails = () => {
 
                 {/* Save button */}
                 <button type="submit" disabled={saving}
-                  className="w-full bg-lacquered-licorice text-albescent-white font-black py-4 rounded-2xl hover:bg-copper-green transition-all duration-500 shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2.5">
+                  className="w-full bg-lacquered-licorice text-albescent-white font-bold py-4 rounded-xl hover:bg-copper-green transition-all duration-300 shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2.5">
                   {saving ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (

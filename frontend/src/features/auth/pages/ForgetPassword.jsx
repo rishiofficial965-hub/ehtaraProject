@@ -63,21 +63,17 @@ const ForgetPassword = () => {
   }
 
   const inputClass =
-    "w-full bg-copper-green/10 text-lacquered-licorice font-normal placeholder-lacquered-licorice/30 px-4 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-playing-hooky border border-copper-green/20 transition-all";
+    "w-full bg-desert-khaki/10 text-lacquered-licorice font-normal placeholder-lacquered-licorice/30 px-4 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-copper-green border border-lacquered-licorice/10 transition-all";
 
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-desert-khaki flex flex-col">
+    <div className="min-h-screen bg-desert-khaki/30 flex flex-col">
       <Nav />
       <main className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-20 -left-20 w-64 h-64 bg-copper-green/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 -right-20 w-80 h-80 bg-playing-hooky/5 rounded-full blur-3xl animate-pulse delay-700"></div>
-
-        <div className="relative z-10 flex flex-col items-center gap-4 w-full max-w-md bg-albescent-white/40 backdrop-blur-md border border-copper-green/20 rounded-2xl px-8 py-10 shadow-[0_10px_30px_rgba(63,78,60,0.1)]">
+        <div className="relative z-10 flex flex-col items-center gap-4 w-full max-w-md bg-white border border-lacquered-licorice/10 rounded-2xl px-8 py-10 shadow-sm">
           <div className="flex flex-col items-center gap-2 mb-2">
-            <div className="w-14 h-14 rounded-full bg-copper-green flex items-center justify-center mb-2 shadow-[0_5px_15px_rgba(63,78,60,0.2)]">
+            <div className="w-14 h-14 rounded-xl bg-copper-green flex items-center justify-center mb-2 shadow-[0_5px_15px_rgba(63,78,60,0.15)]">
               <i className="ri-lock-password-line text-2xl text-albescent-white "></i>
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-lacquered-licorice">
