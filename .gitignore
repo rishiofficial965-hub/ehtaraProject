@@ -36,3 +36,14 @@ lerna-debug.log*
 # OS and system files
 Thumbs.db
 desktop.ini
+
+# Python env, cache, and DB files
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+test.db
+

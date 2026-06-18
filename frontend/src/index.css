@@ -1,101 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+/* ─── Premium Design Tokens ─────────────────────────────────────────────── */
 @theme {
-  /* Primary — Deep Forest Green */
-  --color-copper-green: #2C3E29;
-  /* Accent — Warm Caramel Gold */
-  --color-playing-hooky: #C8A96E;
-  /* Surface — Warm Off-White */
-  --color-albescent-white: #F4F1EB;
-  /* Background — Soft Cream */
-  --color-desert-khaki: #EDE9E0;
-  /* Text — Rich Charcoal */
-  --color-lacquered-licorice: #1C1C1C;
+  /* Fonts */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+
+  /* Custom Color Tokens */
+  --color-obsidian-bg: #050508;
+  --color-obsidian-card: #0c0d14;
+  --color-obsidian-panel: #121420;
+  --color-obsidian-border: #1d2136;
+  --color-obsidian-muted: #64748b;
+  
+  --color-accent-indigo: #6366f1;
+  --color-accent-violet: #8b5cf6;
+  --color-accent-rose: #f43f5e;
+  --color-accent-teal: #06b6d4;
+  --color-accent-emerald: #10b981;
+  --color-accent-amber: #f59e0b;
 }
 
 :root {
-  --c-copper-green:      #2C3E29;
-  --c-playing-hooky:     #C8A96E;
-  --c-albescent-white:   #F4F1EB;
-  --c-desert-khaki:      #EDE9E0;
-  --c-lacquered-licorice: #1C1C1C;
+  --c-obsidian-bg: #050508;
+  --c-obsidian-border: #1d2136;
+  --c-accent-indigo: #6366f1;
+  --c-accent-violet: #8b5cf6;
 }
 
-/* ─── Base ───────────────────────────────────────────────────────────────── */
+/* ─── Base Overrides ─────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 body {
-  background-color: var(--c-desert-khaki);
-  color: var(--c-lacquered-licorice);
-  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--c-obsidian-bg);
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   scroll-behavior: smooth;
+  margin: 0;
+  overflow-x: hidden;
 }
 
-button, label, input[type="button"], input[type="submit"], input[type="reset"] {
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+button {
   cursor: pointer;
 }
 
-/* ─── Custom Utilities ───────────────────────────────────────────────────── */
-/* Scale-108 — used by product card hover zoom */
-.group:hover .group-hover\:scale-108 {
-  transform: scale(1.08);
+/* ─── Custom Premium Animations ─────────────────────────────────────────── */
+@keyframes fade-slide-in {
+  0%   { transform: translateY(16px); opacity: 0; }
+  100% { transform: translateY(0);     opacity: 1; }
+}
+.animate-fade-slide-in {
+  animation: fade-slide-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ─── Animations ─────────────────────────────────────────────────────────── */
-@keyframes drop-bounce {
-  0%   { transform: translateY(-80px); opacity: 0; }
-  60%  { transform: translateY(0);     opacity: 1; }
-  80%  { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(1.15); }
 }
-.animate-drop-bounce {
-  animation: drop-bounce 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.animate-pulse-slow {
+  animation: pulse-slow 10s ease-in-out infinite;
 }
 
-@keyframes soft-rotate {
-  from { transform: rotate(45deg); }
-  to   { transform: rotate(405deg); }
-}
-.animate-soft-rotate {
-  animation: soft-rotate 8s linear infinite;
-}
-
-@keyframes ticker-up {
-  0%   { transform: translateY(100%); opacity: 0; }
-  15%  { transform: translateY(0);    opacity: 1; }
-  85%  { transform: translateY(0);    opacity: 1; }
-  100% { transform: translateY(-100%); opacity: 0; }
-}
-.animate-ticker-up {
-  animation: ticker-up 3.5s ease-in-out infinite;
+/* ─── Glassmorphic Card Glows ────────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(12, 13, 20, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.glass-panel-glow {
+  position: relative;
+}
+.glass-panel-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.05), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
 
-/* Thin branded scrollbar for modals / panels */
+/* ─── Custom Scrollbar ──────────────────────────────────────────────────── */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: var(--c-copper-green) transparent;
+  scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
 }
-.scrollbar-thin::-webkit-scrollbar       { width: 4px; }
-.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--c-copper-green); border-radius: 9999px; }
-
-/* ─── Swiper Overrides ───────────────────────────────────────────────────── */
-.swiper-pagination-bullet {
-  background: var(--c-copper-green) !important;
-  opacity: 0.25;
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-.swiper-pagination-bullet-active {
-  opacity: 1;
-  width: 20px !important;
-  border-radius: 4px !important;
-  background: var(--c-playing-hooky) !important;
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
 }
-.swiper-pagination { bottom: 2rem !important; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
