@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-from ..database import get_db
-from .. import schemas, crud
+from app.database import get_db
+from . import schemas, crud
 
 router = APIRouter(
     prefix="/orders",
@@ -28,5 +28,5 @@ def read_order(order_id: int, db: Session = Depends(get_db)):
     return db_order
 
 @router.delete("/{order_id}", response_model=schemas.OrderResponse)
-def cancel_order(order_id: int, db: Session = Depends(get_db)):
+def delete_order(order_id: int, db: Session = Depends(get_db)):
     return crud.delete_order(db=db, order_id=order_id)

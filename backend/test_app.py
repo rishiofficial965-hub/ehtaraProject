@@ -16,8 +16,9 @@ os.environ["DATABASE_URL"] = f"sqlite:///{TEST_DB_FILE}"
 
 from app.main import app
 from app.database import Base, engine
-# Importing models registers them with the Base.metadata
-from app.models import Product, Customer, Order, OrderItem
+from app.products.models import Product
+from app.customers.models import Customer
+from app.orders.models import Order, OrderItem
 
 # Create tables in the app's SQLite database AFTER models are imported
 Base.metadata.create_all(bind=engine)
