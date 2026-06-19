@@ -26,6 +26,10 @@ Invenio is a production-ready, containerized **Inventory & Order Management Syst
 *   Instant overview statistics: Total Products, Total Customers, and Total Orders.
 *   **Critical Low-Stock Alerts:** Highlights products whose inventory is below a critical threshold (quantity < 10) so businesses can plan restocks proactively.
 
+### 🛡️ 5. Clean Confirmation UI & Better Error Handling
+*   **Custom Confirmation Modals:** Replaced raw browser `window.confirm` dialogs with a modern glassmorphic confirmation popup for deletions and cancels.
+*   **Descriptive Backend Exceptions**: General server errors, DB constraint errors, and Pydantic validation errors format and return plain-English messages directly to client alerts.
+
 ---
 
 ## 🛠️ Technology Stack
@@ -42,9 +46,26 @@ Invenio is a production-ready, containerized **Inventory & Order Management Syst
 *   **HTTP Client:** Axios (configured with environment baseURLs)
 *   **Styling:** Tailwind CSS
 
-### Containerization & Service Orchestration
-*   **Docker:** Multi-stage production-hardened `dockerfile` configurations
-*   **Docker Compose:** Orchestrates frontend, backend, and postgresql database services with health-checks.
+---
+
+## 📐 Architecture & Modular File Structure
+
+Both frontend and backend codebases have been fully refactored to use a highly cohesive, domain-driven architecture where similar modules and tasks are kept together.
+
+### Frontend Modular Layout (`frontend/src/`)
+State management and business operations are completely decoupled from layout presenters:
+*   **`hooks/useAppState.js`**: Custom hook encapsulating all React state variables, search parameters, modal visibilities, notification triggers, and API side-effects.
+*   **`components/common/`**: Nav layout, sidebar logo panels, toast popups, and the custom `<ConfirmationModal />`.
+*   **`components/dashboard/`**: Total stats counters, threshold widgets, and stock exception lists.
+*   **`components/products/`**: Product specs modals, search bars, and catalog tables.
+*   **`components/customers/`**: Customer registers and profile lists.
+*   **`components/orders/`**: Live invoice compiler modals, details inspector, and orders tracking logs.
+
+### Backend Modular Layout (`backend/app/`)
+Organized in domain subfolders to isolate logical components and prevent circular dependencies:
+*   **`products/`**: Houses product SQLAlchemy models, validation schemas, database CRUD procedures, and product routes.
+*   **`customers/`**: Houses customer SQLAlchemy models, validation schemas, database CRUD procedures, and customer routes.
+*   **`orders/`**: Houses order and line item SQLAlchemy models, validation schemas, transaction-wrapped CRUD, and order routes.
 
 ---
 
@@ -114,7 +135,7 @@ To execute the tests:
 ```bash
 cd backend
 # Run test suite with local virtual environment Python
-.\.venv\Scripts\python.exe test_app.py
+.\.venv\Scripts\python test_app.py
 ```
 
 ---
@@ -139,4 +160,3 @@ cd backend
 *   `GET /orders` - View all orders.
 *   `GET /orders/{id}` - View order details (includes products list & subtotals).
 *   `DELETE /orders/{id}` - Cancel/Delete order (automatically restocks items).
-# ehtaraProject
