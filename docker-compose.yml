@@ -1,5 +1,24 @@
 version: '3.8'
+
 services:
+  db:
+    image: postgres:15-alpine
+    container_name: inventory-postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-inventorydb}
+      POSTGRES_USER: ${POSTGRES_USER:-inventoryuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-inventorypassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-inventoryuser} -d ${POSTGRES_DB:-inventorydb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
@@ -7,10 +26,14 @@ services:
     container_name: inventory-fastapi-backend
     restart: always
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-inventoryuser}:${POSTGRES_PASSWORD:-inventorypassword}@db:5432/${POSTGRES_DB:-inventorydb}
       - PORT=8000
     ports:
       - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
   frontend:
     build:
       context: ./frontend
@@ -22,3 +45,6 @@ services:
     depends_on:
       - backend
 
+volumes:
+  postgres_data:
+    name: inventory_postgres_data
