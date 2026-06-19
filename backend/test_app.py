@@ -123,6 +123,34 @@ def test_customer_management_and_business_rules():
     assert response.status_code == 200
     assert response.json()["email"] == "john.doe@example.com"
 
+    # 5. Create product and order for this customer to test cascade delete restocking
+    prod_resp = client.post("/api/products", json={
+        "name": "Testing Customer Delete Restock",
+        "sku": "SKU-CUST-DEL",
+        "price": 10.0,
+        "quantity": 5
+    })
+    assert prod_resp.status_code == 201
+    prod_id = prod_resp.json()["id"]
+
+    order_resp = client.post("/api/orders", json={
+        "customer_id": cust_id,
+        "items": [{"product_id": prod_id, "quantity": 3}]
+    })
+    assert order_resp.status_code == 201
+
+    # Product stock should be reduced: 5 - 3 = 2
+    get_prod = client.get(f"/api/products/{prod_id}")
+    assert get_prod.json()["quantity"] == 2
+
+    # Delete customer (should restock product and delete order)
+    del_resp = client.delete(f"/api/customers/{cust_id}")
+    assert del_resp.status_code == 200
+
+    # Product stock should be restocked to 5
+    get_prod = client.get(f"/api/products/{prod_id}")
+    assert get_prod.json()["quantity"] == 5
+
 def test_order_management_and_business_rules():
     # Setup test objects: Product with 5 stock, Customer
     # Create product

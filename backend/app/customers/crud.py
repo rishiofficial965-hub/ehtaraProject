@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from . import models, schemas
+from app.products.models import Product
 
 def get_customer(db: Session, customer_id: int):
     return db.query(models.Customer).filter(models.Customer.id == customer_id).first()
@@ -43,6 +44,21 @@ def delete_customer(db: Session, customer_id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Customer not found"
         )
-    db.delete(db_customer)
-    db.commit()
+    
+    # Restock all products from customer's orders before deleting the customer
+    for order in db_customer.orders:
+        for item in order.items:
+            product = db.query(Product).filter(Product.id == item.product_id).with_for_update().first()
+            if product:
+                product.quantity += item.quantity
+                
+    try:
+        db.delete(db_customer)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error while deleting customer: {str(e)}"
+        )
     return db_customer

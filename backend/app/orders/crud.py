@@ -110,6 +110,13 @@ def delete_order(db: Session, order_id: int):
         if product:
             product.quantity += item.quantity
             
-    db.delete(db_order)
-    db.commit()
+    try:
+        db.delete(db_order)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error while deleting order: {str(e)}"
+        )
     return db_order

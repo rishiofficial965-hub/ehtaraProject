@@ -11,3 +11,46 @@ env/
 .gitignore
 .dockerignore
 dockerfile
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+env/
+.env
+.git
+.gitignore
+.dockerignore
+dockerfile
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Local environment variables
+.env
+
+# Git
+.git/
+.gitignore
+
+# Docker
+.dockerignore
+dockerfile
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE settings (optional, but good for keeping images small)
+.idea/
+*.swp

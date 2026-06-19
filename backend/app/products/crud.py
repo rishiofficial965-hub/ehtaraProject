@@ -74,6 +74,13 @@ def delete_product(db: Session, product_id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Product not found"
         )
-    db.delete(db_product)
-    db.commit()
+    try:
+        db.delete(db_product)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error while deleting product: {str(e)}"
+        )
     return db_product

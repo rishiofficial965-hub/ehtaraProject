@@ -14,7 +14,7 @@ Invenio is a production-ready, containerized **Inventory & Order Management Syst
 ### 👥 2. Customer Management
 *   Manage customer profiles (create, retrieve, view details, delete).
 *   Automatic email uniqueness constraint validation.
-*   Cascade delete: Removing a customer automatically cleans up their order history.
+*   Cascade delete: Removing a customer automatically cleans up their order history and automatically restocks all products associated with their deleted orders.
 
 ### 🛒 3. Order Management & Business Logic
 *   Place orders with multiple line items, customer association, and quantity requirements.
@@ -28,7 +28,7 @@ Invenio is a production-ready, containerized **Inventory & Order Management Syst
 
 ### 🛡️ 5. Clean Confirmation UI & Better Error Handling
 *   **Custom Confirmation Modals:** Replaced raw browser `window.confirm` dialogs with a modern glassmorphic confirmation popup for deletions and cancels.
-*   **Descriptive Backend Exceptions**: General server errors, DB constraint errors, and Pydantic validation errors format and return plain-English messages directly to client alerts.
+*   **Descriptive Backend Exceptions**: General server errors, DB constraint errors, and Pydantic validation errors format and return plain-English messages directly to client alerts. Connection failures (`OperationalError`, `InterfaceError`) are intercepted to prevent credential exposure, and configuration constraints exit cleanly on container start if the `DATABASE_URL` environment variable is not supplied.
 
 ---
 
